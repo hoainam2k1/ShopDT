@@ -1,0 +1,45 @@
+﻿@model Shop_DT.HomeView.LoginViewModel
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main class="main-content">
+    <div class="login-register-area section-space-y-axis-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6 pt-10 pt-lg-0">
+                    <form asp-action="Login" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="login-form">
+                            <center>
+                                <h4 class="login-title">Đăng nhập</h4>
+                            </center>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label>Email</label>
+                                    <input asp-for="UserName" type="email" required>
+                                </div>
+                                <div class="col-12">
+                                    <label>Mật khẩu</label>
+                                    <input asp-for="Password" type="password" required>
+                                </div>
+                                <div class="col-12">
+                                    <center>
+                                        <input type="submit" class="btn text-secondary lg-size btn-primary btn-primary-hover rounded-0" value="Đăng nhập" />
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+            <div class="row" style="margin-top:20px">
+                <center><div class="col-md-6">Nếu bạn chưa có tài khoản có thể <b><a href="/dang-ky.html">đăng ký</a></b>  ngay </div></center>
+            </div>
+        </div>
+    </div>
+</main>
+

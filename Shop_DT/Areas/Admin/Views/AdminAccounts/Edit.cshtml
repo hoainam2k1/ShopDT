@@ -1,0 +1,53 @@
+﻿@model Shop_DT.Models.Account
+
+@{
+    ViewData["Title"] = "Chỉnh sửa tài khoản";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminAccounts" asp-action="Index">Danh sách tài khoản</a>
+            <span class="breadcrumb-item active">Chỉnh sửa tài khoản</span>
+        </nav>
+    </div>
+</div>
+<form asp-action="Edit" method="post" asp-route-id="@Model.AccountId">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="AccountId" />
+    <input type="hidden" asp-for="CreateDate" />
+    <input type="hidden" asp-for="Password" />
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">Họ và tên</label>
+            <input type="text" asp-for="FullName" class="form-control" id="inputEmail4">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputPassword4">Email</label>
+            <input type="text" asp-for="Email" class="form-control" id="inputPassword4">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputPassword4">SĐT</label>
+            <input type="text" asp-for="Phone" class="form-control" id="inputPassword4">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputPassword4">Mật khẩu</label>
+            <input type="password" asp-for="Password" class="form-control" id="inputPassword4">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputPassword4">Chức vụ</label>
+            <select asp-for="RoleId" class="form-control" asp-items="ViewBag.QuyenTruyCap"></select>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputPassword4">Trạng thái</label>
+            <br />
+            <label class="form-check-label" style="margin-left:20px">
+                <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+            </label>
+        </div>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Lưu thay đổi">
+</form>

@@ -1,0 +1,37 @@
+﻿@model List<Account>
+@if (Model != null && Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.AccountId</th>
+                        <td>@item.FullName</td>
+                        <td>
+                            <p>@item.Email</p>
+                            <p>@item.Phone</p>
+                        </td>
+                        <td>@item.Role.Description</td>
+                        <td>
+                            @if (item.Active)
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="badge badge-success badge-dot m-r-10"></div>
+                                    <div>Hoạt động</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="badge badge-danger badge-dot m-r-10"></div>
+                                    <div>Đã bị khóa</div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-primary m-2" asp-area="Admin" asp-controller="AdminAccounts" asp-action="Details" asp-route-id="@item.AccountId">Xem</a>
+                            <a class="btn btn-secondary m-2" asp-area="Admin" asp-controller="AdminAccounts" asp-action="Edit" asp-route-id="@item.AccountId">Sửa</a>
+                            <a class="btn btn-danger m-2" asp-area="Admin" asp-controller="AdminAccounts" asp-action="Delete" asp-route-id="@item.AccountId">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }

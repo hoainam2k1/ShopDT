@@ -1,0 +1,42 @@
+﻿@model List<Product>
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.ProductId
+            </td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid rounded" src="/images/products/@item.Thumb" style="max-width: 60px" alt="">
+                    <h6 class="m-b-0 m-l-10">@item.ProductName</h6>
+                </div>
+            </td>
+            <td>@item.Cat.CatName</td>
+            <td>@item.Price.Value.ToString("#,##0") VNĐ</td>
+            <td>@item.UnitStock</td>
+            <td>
+                @if (item.UnitStock.Value > 0)
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="badge badge-success badge-dot m-r-10"></div>
+                        <div>Còn hàng</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="badge badge-danger badge-dot m-r-10"></div>
+                        <div>Hết hàng</div>
+                    </div>
+                }
+            </td>
+            <td class="text-right">
+                <a class="btn btn-primary m-2" asp-area="Admin" asp-controller="AdminProducts" asp-action="Details" asp-route-id="@item.ProductId">Xem</a>
+                <a class="btn btn-secondary m-2" asp-area="Admin" asp-controller="AdminProducts" asp-action="Edit" asp-route-id="@item.ProductId">Sửa</a>
+                <a class="btn btn-danger m-2" asp-area="Admin" asp-controller="AdminProducts" asp-action="Delete" asp-route-id="@item.ProductId">Xóa</a>
+            </td>
+        </tr>
+    }
+}

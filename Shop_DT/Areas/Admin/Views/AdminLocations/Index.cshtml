@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Shop_DT.Models.Location>
+
+@{
+    ViewData["Title"] = "Danh sách tỉnh thành";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Danh sách tỉnh thành</span>
+        </nav>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <a class="btn btn-success m-2" asp-area="Admin" asp-controller="AdminLocations" asp-action="Create">Tạo mới</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Tên</th>
+                <th scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.LocationId</th>
+                        <td>@item.Name</td>
+                        <td>
+                            <a class="btn btn-primary m-2" asp-area="Admin" asp-controller="AdminLocations" asp-action="Details" asp-route-id="@item.LocationId">Xem</a>
+                            <a class="btn btn-secondary m-2" asp-area="Admin" asp-controller="AdminLocations" asp-action="Edit" asp-route-id="@item.LocationId">Sửa</a>
+                            <a class="btn btn-danger m-2" asp-area="Admin" asp-controller="AdminLocations" asp-action="Delete" asp-route-id="@item.LocationId">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

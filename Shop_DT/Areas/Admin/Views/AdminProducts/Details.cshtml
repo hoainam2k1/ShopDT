@@ -1,0 +1,90 @@
+﻿@model Shop_DT.Models.Product
+
+@{
+    ViewData["Title"] = "Thông tin sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminProducts" asp-action="Index">Danh sách sản phẩm</a>
+            <span class="breadcrumb-item active">Thông tin sản phẩm @Model.ProductName</span>
+        </nav>
+    </div>
+</div>
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="media align-items-center m-b-15">
+            <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
+                <img src="/images/products/@Model.Thumb" alt="">
+            </div>
+            <div class="m-l-15">
+                <h4 class="m-b-0">@Model.Title</h4>
+                <p class="text-muted m-b-0">Code: #@Model.ProductId</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-overview">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Thông tin cơ bản</h4>
+                    <div class="table-responsive">
+                        <table class="product-info-table m-t-20">
+                            <tbody>
+                                <tr>
+                                    <td>Giá:</td>
+                                    <td class="text-dark font-weight-semibold">@Model.Price.Value.ToString("#,##0") VNĐ</td>
+                                </tr>
+                                <tr>
+                                    <td>Danh mục:</td>
+                                    <td>@Model.Cat.CatName</td>
+                                </tr>
+                                <tr>
+                                    <td>Ngày tạo:</td>
+                                    <td>@Model.CreateDate</td>
+                                </tr>
+                                <tr>
+                                    <td>Ngày cập nhật:</td>
+                                    <td>@Model.DateModified</td>
+                                </tr>
+                                <tr>
+                                    <td>Trạng thái:</td>
+                                    <td>
+                                        @if (Model.Active)
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge badge-success badge-dot m-r-10"></div>
+                                                <div>Đang bán</div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge badge-danger badge-dot m-r-10"></div>
+                                                <div>Ngừng bán</div>
+                                            </div>
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Mô tả sản phẩm</h4>
+                </div>
+                <div class="card-body">
+                    <p>@Model.Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

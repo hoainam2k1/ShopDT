@@ -1,0 +1,133 @@
+﻿@model Shop_DT.Models.Customer
+@{
+    ViewData["Title"] = "DashBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Order> DanhSachDonHang = ViewBag.DonHang;
+    Shop_DT.HomeView.ChangePasswordViewModel changePassword = new Shop_DT.HomeView.ChangePasswordViewModel();
+}
+<main class="main-content">
+    <div class="account-page-area section-space-y-axis-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <ul class="nav myaccount-tab-trigger" id="account-page-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="account-dashboard-tab" data-bs-toggle="tab" href="#account-dashboard" role="tab" aria-controls="account-dashboard" aria-selected="true">Thông tin tài khoản</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="account-orders-tab" data-bs-toggle="tab" href="#account-orders" role="tab" aria-controls="account-orders" aria-selected="false">Danh sách đơn hàng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="account-details-tab" data-bs-toggle="tab" href="#account-details" role="tab" aria-controls="account-details" aria-selected="false">Thay đổi mật khẩu</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-9">
+                    <div class="tab-content myaccount-tab-content" id="account-page-tab-content">
+                        <div class="tab-pane fade show active" id="account-dashboard" role="tabpanel" aria-labelledby="account-dashboard-tab">
+                            <div class="myaccount-dashboard">
+                                <table class="table table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            Xin chào
+                                            <b>@Model.FullName</b>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td>@Model.Email</td>
+                                        </tr>
+                                        <tr>
+                                            <td>SĐT</td>
+                                            <td>@Model.Phone</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Địa chỉ</td>
+                                            <td>@Model.Address</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="account-orders" role="tabpanel" aria-labelledby="account-orders-tab">
+                            <div class="myaccount-orders">
+                                <h4 class="small-title">Danh sách đơn hàng</h4>
+                                <div class="table-responsive">
+                                    @if (DanhSachDonHang != null && DanhSachDonHang.Count() > 0)
+                                    {
+                                        <table class="table table-bordered table-hover">
+                                            <tbody>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Ngày đặt</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Tổng tiền</th>
+                                                    <th>#</th>
+                                                </tr>
+                                                @foreach (var item in DanhSachDonHang)
+                                                {
+                                                    <tr>
+                                                        <td>#@item.OrderId</td>
+                                                        <td>@item.OrderDate</td>
+                                                        <td>@item.TransactStatus.Description</td>
+                                                        <td>@item.TotalMoney.Value.ToString("#,##0") VNĐ</td>
+                                                        <td>
+                                                            <a class="btn btn-secondary btn-primary-hover xemdonhang" data-madonhang="@item.OrderId"><span>Xem đơn hàng</span></a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <hr />
+                                        <div id="records_table">
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <p>Chưa có đơn hàng!</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="account-details" role="tabpanel" aria-labelledby="account-details-tab">
+                            @await Html.PartialAsync("_ChangePasswordPartialView", changePassword)
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+           document.querySelectorAll(".xemdonhang").forEach(checkOrder => {
+               checkOrder.addEventListener("click", function(e) {
+                   var madonhang = $(this).attr("data-madonhang");
+                
+           $.ajax({
+               url: '/api/order/details',
+               datatype: "json",
+               type: "POST",
+               data: {id: madonhang},
+               async: true,
+               success: function(results)
+               {
+                   
+                   $("#records_table").html("");
+                   $("#records_table").html(results);
+               },
+               error: function(xhr){
+                   alert(xhr);
+               }
+           });
+       })
+    })
+ })
+
+</script>

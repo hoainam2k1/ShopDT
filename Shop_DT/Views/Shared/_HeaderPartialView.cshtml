@@ -1,0 +1,155 @@
+﻿ <!-- Begin Main Header Area -->
+<header class="main-header_area position-relative">
+
+    <div class="header-middle py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <div class="header-middle-wrap">
+                        <a href="/" class="header-logo">
+                            <img src="~/assets/images/logo/mobile-store.png" width="163" height="100" alt="Header Logo">
+                        </a>
+                        <div class="header-search-area d-none d-lg-block">
+                            <form action="#" class="header-searchbox">
+                                <select class="nice-select select-search-category wide" id="CatId" name="CatId" asp-items="ViewBag.DanhMuc">
+                                    <option value="0" disabled selected>Chọn danh mục</option>
+                                </select>
+                                <input class="input-field" type="text" placeholder="Tìm kiếm sản phẩm">
+                                <button class="btn btn-outline-whisper btn-primary-hover" type="submit"><i class="pe-7s-search"></i></button>
+                            </form>
+                        </div>
+                        <div class="header-right">
+                            <ul>
+                                <li class="dropdown d-none d-md-block">
+                                    <button class="btn btn-link dropdown-toggle ht-btn p-0" type="button" id="settingButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="pe-7s-users"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingButton">
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <li><a class="dropdown-item" href="/tai-khoan-cua-toi.html">Tài khoản của tôi</a></li>
+                                            <li><a class="dropdown-item" href="/dang-xuat.html">Đăng xuất</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a class="dropdown-item" href="/dang-nhap.html">Đăng nhập</a></li>
+                                            <li><a class="dropdown-item" href="/dang-ky.html">Đăng ký</a></li>
+                                        }
+                                    </ul>
+                                </li>
+
+                                <li class="d-block d-lg-none">
+                                    <a href="#searchBar" class="search-btn toolbar-btn">
+                                        <i class="pe-7s-search"></i>
+                                    </a>
+                                </li>
+                                @await Component.InvokeAsync("NumberCart")
+                                <li class="mobile-menu_wrap d-block d-lg-none">
+                                    <a href="#mobileMenu" class="mobile-menu_btn toolbar-btn pl-0">
+                                        <i class="pe-7s-menu"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-header header-sticky" data-bg-color="#00abfd">
+        <div class="container">
+            <div class="main-header_nav position-relative">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 d-none d-lg-block">
+                        <div class="main-menu">
+                            <nav class="main-nav">
+                                <ul>
+                                    <li class="drop-holder">
+                                        <a href="/">Trang chủ</a>
+
+                                    </li>
+                                    <li>
+                                        <a href="product.html">Sản phẩm</a>
+                                    </li>
+                                    <li class="megamenu-holder">
+                                        <a href="contact.html">Liên hệ</a>
+                                    </li>
+                                    <li class="drop-holder">
+                                        <a href="privacy.html">Hướng dẫn mua hàng</a>
+                                    </li>
+                                    <li class="drop-holder">
+                                        <a href="about.html">Thông tin cửa hàng</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mobile-menu_wrapper" id="mobileMenu">
+        <div class="harmic-offcanvas-body">
+            <div class="inner-body">
+                <div class="harmic-offcanvas-top">
+                    <a href="#" class="button-close"><i class="pe-7s-close"></i></a>
+                </div>
+
+                <div class="offcanvas-menu_area">
+                    <nav class="offcanvas-navigation">
+                        <ul class="mobile-menu">
+                            <li class="menu-item-has-children">
+                                <a href="/">
+                                    <span class="mm-text">Trang chủ</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a href="product.html">
+                                    <span class="mm-text">Sản phẩm</span>
+                                </a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="contact.html">
+                                    <span class="mm-text">Liên hệ</span>
+                                </a>
+
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="privacy.html">
+                                    <span class="mm-text">Hướng dẫn mua hàng</span>
+                                </a>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="about.html">
+                                    <span class="mm-text">Thông tin cửa hàng</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas-search_wrapper" id="searchBar">
+        <div class="harmic-offcanvas-body">
+            <div class="container h-100">
+                <div class="offcanvas-search">
+                    <div class="harmic-offcanvas-top">
+                        <a href="#" class="button-close"><i class="pe-7s-close"></i></a>
+                    </div>
+                    <span class="searchbox-info">Tìm kiếm sản phẩm</span>
+                    <form action="#" class="hm-searchbox">
+                        <input type="text">
+                        <button class="search-btn" type="submit"><i class="pe-7s-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas-minicart_wrapper" id="miniCart">
+        @await Component.InvokeAsync("HeaderCart")
+    </div>
+    <div class="global-overlay"></div>
+</header>
+<!-- Main Header Area End Here -->

@@ -1,0 +1,106 @@
+﻿@model Shop_DT.Models.Product
+
+@{
+    ViewData["Title"] = "Chỉnh sửa sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminProducts" asp-action="Index">Danh sách sản phẩm</a>
+            <span class="breadcrumb-item active">Chỉnh sửa sản phẩm</span>
+        </nav>
+    </div>
+</div>
+<form asp-controller="AdminProducts" asp-action="Edit" asp-route-id="@Model.ProductId" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="ProductId" />
+    <input type="hidden" asp-for="Thumb" />
+    <input type="hidden" asp-for="CreateDate" />
+    <div class="page-header no-gutters has-tab">
+        <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+            <div class="media align-items-center m-b-15">
+                <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
+                    <img src="/images/products/@Model.Thumb" alt="">
+                </div>
+                <div class="m-l-15">
+                    <h4 class="m-b-0">@Model.Title</h4>
+                    <p class="text-muted m-b-0">Code: #@Model.ProductId</p>
+                </div>
+            </div>
+            <div class="m-b-15">
+                <button class="btn btn-primary">
+                    <i class="anticon anticon-save"></i>
+                    <span>Lưu</span>
+                </button>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">Thông tin cơ bản</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#product-edit-description">Mô tả sản phẩm</a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-edit-basic">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label asp-for="ProductName" class="font-weight-semibold" for="productName">Tên sản phẩm</label>
+                        <input asp-for="ProductName" type="text" class="form-control" id="productName">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CatId" class="font-weight-semibold">Danh mục</label>
+                        <select asp-for="CatId" class="form-control" asp-items="ViewBag.DanhMuc"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ShortDesc" class="font-weight-semibold" for="shortDesc">Mô tả ngắn</label>
+                        <input asp-for="ShortDesc" type="text" class="form-control" id="shortDesc">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="font-weight-semibold" for="productPrice">Giá</label>
+                        <input asp-for="Price" type="text" class="form-control" id="productPrice">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Discount" class="font-weight-semibold" for="disCount">Giảm giá (%)</label>
+                        <input asp-for="Discount" type="text" class="form-control" id="disCount">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Title" class="font-weight-semibold" for="productTitle">Tiêu đề</label>
+                        <input asp-for="Title" type="text" class="form-control" id="productTitle">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UnitStock" class="font-weight-semibold" for="UnitStock">Số lượng nhập</label>
+                        <input asp-for="UnitStock" type="text" class="form-control" id="UnitStock">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Thumb" class="font-weight-semibold" for="thumb">Ảnh đại diện</label>
+                        <input asp-for="Thumb" name="fThumb" type="file" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-semibold" for="productStatus">Trạng thái</label>
+                        <br />
+                        <label class="form-check-label" style="margin-left:20px">
+                            <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="product-edit-description">
+            <div class="card">
+                <div class="card-body">
+                    <div id="productDescription">
+                        <textarea class="form-control" asp-for="Description"
+                                  style="height: 250px;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

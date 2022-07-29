@@ -1,0 +1,89 @@
+﻿@model Shop_DT.Models.Order
+
+@{
+    ViewData["Title"] = "Thông tin đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    List<OrderDetail> chitietdonhang = ViewBag.OrderDetails;
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">Danh sách đơn hàng</a>
+            <span class="breadcrumb-item active">Thông tin đơn hàng #@Model.OrderId</span>
+        </nav>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="tab-content m-t-15">
+        <div class="tab-pane fade show active" id="product-overview">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Thông tin khách hàng</h4>
+                    <div class="table-responsive">
+                        <table class="product-info-table m-t-20">
+                            <tbody>
+                                <tr>
+                                    <td>Họ tên:</td>
+                                    <td class="text-dark font-weight-semibold">@Model.Customer.FullName</td>
+                                </tr>
+                                <tr>
+                                    <td>SĐT:</td>
+                                    <td>@Model.Customer.Phone</td>
+                                </tr>
+                                <tr>
+                                    <td>Email:</td>
+                                    <td>@Model.Customer.Email</td>
+                                </tr>
+                                <tr>
+                                    <td>Địa chỉ:</td>
+                                    <td>@Model.Customer.Address</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Thông tin đơn hàng #@Model.OrderId</h4>
+                    <p>Tổng đơn hàng: @Model.TotalMoney.Value.ToString("#,##0") VNĐ</p>
+                    <div class="table-responsive">
+                        <table class="product-info-table m-t-20">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Số lượng</th>
+                                    <th>Giá</th>
+                                    <th>Tổng tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (chitietdonhang != null && chitietdonhang.Count() > 0)
+                                {
+                                    int i = 0;
+                                    
+                                    foreach (var item in chitietdonhang)
+                                    {
+                                        var Price = item.Product.Price * item.Quantity;
+                                        i++;
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@item.Product.ProductName</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.Product.Price.Value.ToString("#,##0") VNĐ</td>
+                                            <td>@Price.Value.ToString("#,##0") VNĐ</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

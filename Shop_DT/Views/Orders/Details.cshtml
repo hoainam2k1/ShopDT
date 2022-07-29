@@ -1,0 +1,38 @@
+﻿@model Shop_DT.HomeView.XemDonHang
+@{
+    ViewData["Title"] = "Details";
+}
+@if (Model != null)
+{
+    <p>Thông tin đơn hàng: #@Model.DonHang.OrderId</p>
+    <br />
+    <p>Ngày đặt hàng: @Model.DonHang.OrderDate</p>
+    <p>Trạng thái đơn hàng: @Model.DonHang.TransactStatus.Description</p>
+    <p>Thành tiền: @Model.DonHang.TotalMoney.Value.ToString("#,##0") VNĐ</p>
+    <br />
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Sản phẩm:</th>
+                <th scope="col">số lượng:</th>
+                <th scope="col">Đơn giá:</th>
+                <th scope="col">Tổng tiền:</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ChiTietDonHang != null && Model.ChiTietDonHang.Count() > 0)
+            {
+                foreach (var item in Model.ChiTietDonHang)
+                {
+                    var Price = item.Quantity * item.Product.Price;
+                    <tr>
+                        <td class="text-dark font-weight-normal">@item.Product.ProductName</td>
+                        <td class="text-dark font-weight-normal">@item.Quantity</td>
+                        <td class="text-dark font-weight-normal">@item.Product.Price.Value.ToString("#,##0") VNĐ</td>
+                        <td class="text-dark font-weight-normal">@Price.Value.ToString("#,##0") VNĐ</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}

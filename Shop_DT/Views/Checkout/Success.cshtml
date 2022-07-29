@@ -1,0 +1,35 @@
+﻿@model Shop_DT.HomeView.MuaHangSuccessVM
+@{
+    ViewData["Title"] = "Success";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<main class="main-content">
+    <div class="about-banner different-bg-position section-space-y-axis-100" data-bg-image="assets/images/about/banner/1-1-1920x598.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6 col-lg-5">
+                    <div class="parallax-img-wrap">
+                        <div class="papaya">
+                            <div class="scene fill">
+                                <div class="expand-width" data-depth="0.2">
+                                    <img src="~/images/slider/dat-hang-thanh-cong.jpg" alt="Banner Images">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-7 align-self-center">
+                    <div class="about-banner-content">
+                        <div class="section-title">
+                            <h5 class="title font-size-40 mb-6">Thông tin đơn hàng</h5>
+                            <p class="short-desc mb-0">Thông tin giao hàng</p>
+                            <p class="short-desc mb-0">Người nhận: @Model.FullName</p>
+                            <p class="short-desc mb-0">Số điện thoại: @Model.Phone</p>
+                            <p class="short-desc mb-0">Địa chỉ: @Model.Address</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

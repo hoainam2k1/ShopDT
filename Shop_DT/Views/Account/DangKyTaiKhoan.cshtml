@@ -1,0 +1,54 @@
+﻿@model Shop_DT.HomeView.RegisterVM
+
+@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<main class="main-content">
+    <div class="login-register-area section-space-y-axis-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6 pt-10 pt-lg-0">
+                    <form asp-action="DangKyTaiKhoan">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="login-form">
+                            <center>
+                                <h4 class="login-title">Đăng ký tài khoản</h4>
+                            </center>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label>Họ và tên</label>
+                                    <input asp-for="FullName" type="text" required>
+                                </div>
+                                <div class="col-12">
+                                    <label>Email</label>
+                                    <input asp-for="Email" type="email" required>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>SĐT</label>
+                                    <input asp-for="Phone" type="text" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Mật khẩu</label>
+                                    <input asp-for="Password" type="password" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Nhập lại mật khẩu</label>
+                                    <input asp-for="ConfirmPassword" type="password">
+                                </div>
+                                <div class="col-12">
+                                    <center>
+                                        <input type="submit" class="btn text-secondary lg-size btn-primary btn-primary-hover rounded-0" value="Đăng ký" />
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+        </div>
+    </div>
+</main>
+

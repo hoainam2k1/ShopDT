@@ -1,0 +1,150 @@
+﻿@using PagedList.Core.Mvc
+@model IEnumerable<Shop_DT.Models.Product>
+
+@{
+    ViewData["Title"] = "Danh sách sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Danh sách sản phẩm</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    <div class="m-b-10 m-r-15">
+                        <select class="custom-select" style="min-width: 180px;" id="txtCatID" name="txtCatID" asp-items="ViewBag.DanhMuc">
+                            <option value="0" disabled selected>Chọn danh mục</option>
+                        </select>
+                    </div>
+                    
+                    <div class="m-b-10">
+                        <input id="keyword" type="text" name="keyword" class="form-control" placeholder="Tìm kiếm sản phẩm" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-right">
+                <a class="btn btn-primary" asp-area="Admin" asp-controller="AdminProducts" asp-action="Create">
+                    <i class="anticon anticon-plus-circle m-r-5"></i>
+                    <span>Thêm mới</span>
+                </a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Trạng thái</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody id="records_table">
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @item.ProductId
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-fluid rounded" src="/images/products/@item.Thumb" style="max-width: 60px" alt="">
+                                    </div>
+                                    <p>@item.ProductName</p>
+                                </td>
+                                <td>@item.Cat.CatName</td>
+                                <td>@item.Price.Value.ToString("#,##0") VNĐ</td>
+                                <td>@item.UnitStock</td>
+                                <td>
+                                    @if (item.UnitStock.Value > 0)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-success badge-dot m-r-10"></div>
+                                            <div>Còn hàng</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-danger badge-dot m-r-10"></div>
+                                            <div>Hết hàng</div>
+                                        </div>
+                                    }
+                                </td>
+
+
+                                <td class="text-right">
+                                    <a class="btn btn-primary m-2" asp-area="Admin" asp-controller="AdminProducts" asp-action="Details" asp-route-id="@item.ProductId">Xem</a>
+                                    <a class="btn btn-secondary m-2" asp-area="Admin" asp-controller="AdminProducts" asp-action="Edit" asp-route-id="@item.ProductId">Sửa</a>
+                                    <a class="btn btn-danger m-2" asp-area="Admin" asp-controller="AdminProducts" asp-action="Delete" asp-route-id="@item.ProductId">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts{
+<script>
+    $(document).ready(function(){
+        jQuery("#txtCatID").change(function(){
+            var catID = jQuery(this).children(":selected").attr("value");
+            catID = parseFloat(catID);
+            $('#txtCatID option')
+            .removeAttr('selected');
+            $("#txtCatID > [value=" +catID+"]").attr("selected", "true");
+            $.ajax({
+                url: '/Admin/AdminProducts/Fillter',
+                datatype: "json",
+                type: "GET",
+                data:{
+                    CatID : catID
+                },
+                async: true,
+                success: function(results){
+                    if(results.status == "success")
+                    {
+                        window.location.href = results.redirecUrl;
+                    }
+                },
+                error: function(xhr){
+                    alert('error');
+                }
+            });
+        });
+
+        $("#keyword").keyup(function(){
+            var strkeyword = $('#keyword').val();
+            $.ajax({
+                url: '../Admin/Search/FindProduct/',
+                datatype: "json",
+                type: "POST",
+                data: { keyword : strkeyword},
+                async: true,
+                success: function(results){
+                    $("#records_table").html("");
+                    $("#records_table").html(results);
+                },
+                error: function(xhr){
+                    alert('error');
+                }
+            });
+        });
+    });
+
+</script>
+}

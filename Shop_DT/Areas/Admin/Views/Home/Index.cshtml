@@ -1,0 +1,126 @@
+﻿@model IEnumerable<Shop_DT.Models.Order>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+
+<div class="row">
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-md-flex justify-content-between align-items-center">
+                    <h5>Lượt truy cập</h5>
+                </div>
+                <div class="m-t-50" style="height: 225px">
+                    <canvas class="chart" id="sales-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="m-b-0">Đơn hàng</p>
+                        <h2 class="m-b-0">
+                            <span>25</span>
+                        </h2>
+                    </div>
+                    <div class="avatar avatar-icon avatar-lg avatar-red">
+                        <i class="anticon anticon-profile"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Doanh thu tháng</h5>
+                </div>
+                <div class="d-flex align-items-center position-relative m-v-50" style="height:150px;">
+                    <div class="w-100 position-absolute" style="height:150px; top:0;">
+                        <canvas class="chart m-h-auto" id="porgress-chart"></canvas>
+                    </div>
+                    <h2 class="w-100 text-center text-large m-b-0 text-success font-weight-normal">135,000,000 VNĐ</h2>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="m-b-0">Tổng doanh thu</p>
+                        <h2 class="m-b-0">
+                            <span>235,000,000 VNĐ</span>
+                        </h2>
+                    </div>
+                    <div class="avatar avatar-icon avatar-lg avatar-gold">
+                        <i class="anticon anticon-bar-chart"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5>Giao dịch gần nhất</h5>
+                    </div>
+                    <div class="m-t-30">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Khách hàng</th>
+                                        <th>Ngày đặt</th>
+                                        <th>Số lượng</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (giaodich != null && giaodich.Count() > 0)
+                                    {
+                                        foreach (var item in giaodich)
+                                        {
+                                            <tr>
+                                                <td>#@item.OrderId</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="d-flex align-items-center">
+                                                            <h6 class="m-l-10 m-b-0">@item.Customer.FullName</h6>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>@item.OrderDate</td>
+                                                <td>@item.TotalMoney.Value.ToString("#,##0") VNĐ</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="badge badge-success badge-dot m-r-10"></span>
+                                                        <span>@item.TransactStatus.Description</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<!-- Content Wrapper END -->

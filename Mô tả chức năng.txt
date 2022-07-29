@@ -1,0 +1,43 @@
+database first
+- Lựa chọn Template 
+- Thiết kế CSDM 
+- Xử lý phần Admin
+	- Bang dieu khien 
+	- Danh so
+	- Cap nhat trang	
+	- Quản lý tài khoản quản trị					Accounts				
+		+ Danh sách tài khoản quản trị 								
+		+ Lọc tài khoản quản trị									
+		+ Tìm kiếm tài khoản quản trị																									
+	- Quản lý sản phẩm						Products
+		+ Danh sách sản phẩm									
+		+ Tìm kiếm sản phẩm									
+		+ Thêm Xóa Sửa sản phẩm								
+		+ Lọc sản phẩm										
+	- Quản lý khách hàng						Customer			
+		+ Dánh sách khách hàng									
+		+ Tìm kiếm khách hàng									
+	- Quản lý đơn hàng							Orders			
+		+ Danh sách đơn hàng									
+		+ Lọc đơn hàng
+		+ Tìm kiếm đơn hàng									
+	- Quản lý danh mục sản phẩm					Categories			
+		+ Danh sách danh mục sản phẩm							
+		+ Thêm xóa sửa danh mục sản phẩm							
+		+ Lọc danh mục sản phẩm								
+	- Quản lý quyền truy cập						Roles				
+	- Quản lý khu vực (tỉnh thành/quận huyện/phường xã)	Locations			
+	- Quản ký phương thức thanh toán				Payments			
+	- Thống kê
+		+ Thống kê danh số theo ngày/tháng/năm
+		+ Thống kê sản phẩm (số lượng trong kho, số lượng hết hàng)
+- Xử lý giao diện người dùng					
+	- Xử lý trang chủ						
+	- Xử lý trang danh mục sản phẩm			
+	- Xử lý trang chi tiết sản phẩm				
+	- Xử lý trang giỏ hàng					
+	- Xử lý trang mua hàng					
+	- Xử lý trang thông tin khách hàng			
+	- Danh sách đơn hàng					
+	- Chi tiết đơn hàng						
+	- Binh luan							

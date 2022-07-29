@@ -1,0 +1,44 @@
+﻿@model List<Category>
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        string url = $"/{item.Alias}";
+        <tr>
+            <td>
+                @item.CatId
+            </td>
+            <td>@item.CatName</td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid rounded" src="/images/categories/@item.Thumb" style="max-width: 60px" alt="">
+                </div>
+            </td>
+            <td>@item.Products.Sum(x => x.UnitStock)</td>
+            <td>
+                @if (item.Published)
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="badge badge-success badge-dot m-r-10"></div>
+                        <div>Hiển thị</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="badge badge-danger badge-dot m-r-10"></div>
+                        <div>Không hiển thị</div>
+                    </div>
+                }
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td class="text-right">
+                <a class="btn btn-primary m-2" asp-area="Admin" asp-controller="AdminCategories" asp-action="Details" asp-route-id="@item.CatId">Xem</a>
+                <a class="btn btn-secondary m-2" asp-area="Admin" asp-controller="AdminCategories" asp-action="Edit" asp-route-id="@item.CatId">Sửa</a>
+                <a class="btn btn-danger m-2" asp-area="Admin" asp-controller="AdminCategories" asp-action="Delete" asp-route-id="@item.CatId">Xóa</a>
+            </td>
+        </tr>
+    }
+}

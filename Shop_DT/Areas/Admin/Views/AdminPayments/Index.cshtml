@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Shop_DT.Models.Payment>
+
+@{
+    ViewData["Title"] = "Quản lí phương thức thanh toán";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Danh sách phương thức thanh toán</span>
+        </nav>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <a class="btn btn-success m-2" asp-area="Admin" asp-controller="AdminPayments" asp-action="Create">Tạo mới</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="5%">ID</th>
+                <th width="15%">Tên phương thức</th>
+                <th width="35%">Mô tả</th>
+                <th width="11%">Trạng thái</th>
+                <th width="29%">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.PaymentId</th>
+                        <td>@item.PaymentName</td>
+                        <td>@item.PaymentDes</td>
+                        <td>
+                            @if (item.Active)
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="badge badge-success badge-dot m-r-10"></div>
+                                    <div>Hoạt động</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="badge badge-danger badge-dot m-r-10"></div>
+                                    <div>Ngưng hoạt động</div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-primary m-2" asp-area="Admin" asp-controller="AdminPayments" asp-action="Details" asp-route-id="@item.PaymentId">Xem</a>
+                            <a class="btn btn-secondary m-2" asp-area="Admin" asp-controller="AdminPayments" asp-action="Edit" asp-route-id="@item.PaymentId">Sửa</a>
+                            <a class="btn btn-danger m-2" asp-area="Admin" asp-controller="AdminPayments" asp-action="Delete" asp-route-id="@item.PaymentId">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>

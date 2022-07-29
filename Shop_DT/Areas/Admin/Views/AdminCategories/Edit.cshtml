@@ -1,0 +1,67 @@
+﻿@model Shop_DT.Models.Category
+
+@{
+    ViewData["Title"] = "Chỉnh sửa danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">Danh sách danh mục</a>
+            <span class="breadcrumb-item active">Chỉnh sửa danh mục</span>
+        </nav>
+    </div>
+</div>
+<form asp-controller="AdminCategories" asp-action="Edit" method="post" enctype="multipart/form-data">
+    <div class="page-header no-gutters has-tab">
+        <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+            <div class="media align-items-center m-b-15">
+                <div class="avatar avatar-image rounded" style="height: 100px; width: 100px">
+                    <img src="~/images/categories/@Model.Thumb" alt="">
+                </div>
+                <div class="m-l-15">
+                    <h4 class="m-b-0">@Model.Title</h4>
+                </div>
+            </div>
+            <div class="m-b-15">
+
+                <button class="btn btn-primary">
+                    <i class="anticon anticon-save"></i>
+                    <span>Lưu</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="CatId" />
+    <input type="hidden" asp-for="Thumb" />
+    <div class="form-group">
+        <label asp-for="CatName" class="control-label">Tên danh mục</label>
+        <input asp-for="CatName" class="form-control" />
+        <span asp-validation-for="CatName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Title" class="control-label">Tiêu đề</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Thumb" class="control-label">Ảnh đại diện</label>
+        <input asp-for="Thumb" name="fThumb" type="file" class="form-control" />
+        <span asp-validation-for="Thumb" class="text-danger"></span>
+    </div>
+    <div class="form-group form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" asp-for="Published" /> @Html.DisplayNameFor(model => model.Published)
+        </label>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">Mô tả</label>
+        <br />
+        <textarea asp-for="Description" style="width:519px"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    
+</form>

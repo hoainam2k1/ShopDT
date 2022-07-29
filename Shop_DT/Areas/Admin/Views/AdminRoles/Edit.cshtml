@@ -1,0 +1,33 @@
+﻿@model Shop_DT.Models.Role
+
+@{
+    ViewData["Title"] = "Chỉnh sửa quyền truy cập";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminRoles" asp-action="Index">Danh sách quyền truy cập</a>
+            <span class="breadcrumb-item active">Chỉnh sửa quyền truy cập</span>
+        </nav>
+    </div>
+</div>
+<form asp-action="Edit" method="post" asp-route-id="@Model.RoleId">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="RoleId" />
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">Tên quyền truy cập</label>
+            <input type="text" asp-for="RoleName" class="form-control" id="inputEmail4">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputPassword4">Mô tả</label>
+            <input type="text" asp-for="Description" class="form-control" id="inputPassword4">
+        </div>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Lưu thay đổi">
+</form>
+
+

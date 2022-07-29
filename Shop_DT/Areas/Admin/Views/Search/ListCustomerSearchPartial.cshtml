@@ -1,0 +1,42 @@
+﻿@model List<Customer>
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.CustomerId
+            </td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid rounded" src="/images/products/@item.Avatar" style="max-width: 60px" alt="">
+                    <h6 class="m-b-0 m-l-10">@item.FullName</h6>
+                </div>
+            </td>
+            <td>
+                <p>@item.Email</p>
+                <p>@item.Phone</p>
+            </td>
+            <td>@item.Location.Name</td>
+            <td>
+                @if (item.Active)
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="badge badge-success badge-dot m-r-10"></div>
+                        <div>Hoạt động</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="badge badge-danger badge-dot m-r-10"></div>
+                        <div>Đã khóa</div>
+                    </div>
+                }
+            </td>
+            <td class="text-right">
+                <a class="btn btn-primary m-2" asp-area="Admin" asp-controller="AdminProducts" asp-action="Details" asp-route-id="@item.CustomerId">Xem</a>
+            </td>
+        </tr>
+    }
+}

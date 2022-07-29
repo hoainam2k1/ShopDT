@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Shop_DT.Models.Comment>
+
+@{
+    ViewData["Title"] = "Danh sách bình luận";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Danh sách bình luận</span>
+        </nav>
+    </div>
+</div>
+
+<div class="table-responsive">
+    @*<a class="btn btn-success m-2" asp-area="Admin" asp-controller="AdminComments" asp-action="Create">Tạo mới</a>*@
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Người dùng</th>
+                <th scope="col">Nội dung bình luận</th>
+                <th scope="col">Ngày bình luận</th>
+                <th scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count() > 0)
+            {
+                var i = 0;
+                foreach (var item in Model)
+                {
+                    i++;
+                    <tr>
+                        <th scope="row">@i</th>
+                        <td>@item.Product.ProductName</td>
+                        <td>@item.Customer.FullName</td>
+                        <td>@item.CommentContent</td>
+                        <td>@item.CommentDate.Value.ToString("dd/MM/yyyy")</td>
+                        @*<td>
+                            <div class="d-flex align-items-center">
+                            <div class="badge badge-success badge-dot m-r-10"></div>
+                            <div>Đã duyệt</div>
+                            </div>
+                            </td>*@
+                        <td>
+                            @*<a class="btn btn-primary m-2" asp-area="Admin" asp-controller="AdminRoles" asp-action="Details" asp-route-id="">Duyệt</a>*@
+                            <a class="btn btn-danger m-2" asp-area="Admin" asp-controller="AdminComments" asp-action="Delete" asp-route-id="@item.CommentId">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }
+
+            @* <tr>
+                <th scope="row">2</th>
+                <td>Lenovo K3 Note</td>
+                <td>Hoài Nam</td>
+                <td>Không dùng tốt</td>
+                <td>
+                <div class="d-flex align-items-center">
+                <div class="badge badge-danger badge-dot m-r-10"></div>
+                <div>Chưa duyệt</div>
+                </div>
+                </td>
+                <td>
+                <a class="btn btn-primary m-2" asp-area="Admin" asp-controller="AdminRoles" asp-action="Details" asp-route-id="">Duyệt</a>
+                <a class="btn btn-danger m-2" asp-area="Admin" asp-controller="AdminRoles" asp-action="Delete" asp-route-id="">Xóa</a>
+                </td>
+                </tr>*@
+
+
+        </tbody>
+    </table>
+</div>

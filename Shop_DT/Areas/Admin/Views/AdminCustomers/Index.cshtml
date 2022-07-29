@@ -1,0 +1,115 @@
+﻿@model IEnumerable<Shop_DT.Models.Customer>
+
+@{
+    ViewData["Title"] = "Danh sách khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Danh sách khách hàng</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row m-b-30">
+            <div class="col-lg-8">
+                <div class="d-md-flex">
+                    
+                    <div class="m-b-10 m-r-15">
+                        <select class="custom-select" style="min-width: 180px;" id="StatusID" name="StatusID" asp-items="ViewBag.TrangThai">
+                            <option value="" disabled selected>Chọn trạng thái</option>
+                        </select>
+                    </div>
+                    <div class="m-b-10">
+                        <input id="keyword" type="text" name="keyword" class="form-control" placeholder="Tìm kiếm khách hàng" />
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover e-commerce-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Họ và tên</th>
+                        <th>Email - SĐT</th>
+                        @*<th>Địa chỉ</th>*@
+                        <th>Trạng thái</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody id="records_table">
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @item.CustomerId
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-fluid rounded" src="/images/products/@item.Avatar" style="max-width: 60px" alt="">
+                                        <h6 class="m-b-0 m-l-10">@item.FullName</h6>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p>@item.Email</p>
+                                    <p>@item.Phone</p>
+                                </td>
+                                @*<td>@item.Address</td>*@
+                                <td>
+                                    @if (item.Active)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-success badge-dot m-r-10"></div>
+                                            <div>Hoạt động</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-danger badge-dot m-r-10"></div>
+                                            <div>Đã khóa</div>
+                                        </div>
+                                    }
+                                </td>
+                                <td class="text-right">
+                                    <a class="btn btn-primary m-2" asp-area="Admin" asp-controller="AdminCustomers" asp-action="Details" asp-route-id="@item.CustomerId">Xem</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts{
+<script>
+    $(document).ready(function(){
+        $("#keyword").keyup(function(){
+            var strkeyword = $('#keyword').val();
+            $.ajax({
+                url: '../Admin/Search/FindCustomer/',
+                datatype: "json",
+                type: "POST",
+                data: { keyword : strkeyword},
+                async: true,
+                success: function(results){
+                    $("#records_table").html("");
+                    $("#records_table").html(results);
+                },
+                error: function(xhr){
+                    alert('error');
+                }
+            });
+        });
+    });
+
+</script>
+}

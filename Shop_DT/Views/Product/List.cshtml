@@ -1,0 +1,166 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<Shop_DT.Models.Product>
+@{
+    Category category = ViewBag.CurrentCat;
+    ViewData["Title"] = category.Title + " " + ViewBag.CurrentPage;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int CurrentPage = ViewBag.CurrentPage;
+    
+    int PageNext = CurrentPage + 1;
+}
+<!-- Begin Main Content Area -->
+<main class="main-content">
+    <div class="breadcrumb-area breadcrumb-height">
+        <div class="container h-100">
+            <div class="row h-100">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-item">
+                        <h2 class="breadcrumb-heading">Danh mục sản phẩm</h2>
+                        <ul>
+                            <li>
+                                <a href="/">Trang chủ<i class="pe-7s-angle-right"></i></a>
+                            </li>
+                            <li>Danh mục sản phẩm @category.CatName</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="shop-area section-space-y-axis-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product-topbar">
+                        <ul>
+                            <li class="product-view-wrap">
+                                <ul class="nav" role="tablist">
+                                    <li class="grid-view" role="presentation">
+                                        <a id="grid-view-tab" data-bs-toggle="tab" href="#grid-view" role="tab" aria-selected="true">
+                                            <i class="fa fa-th"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-view" role="presentation">
+                                        <a class="active" id="list-view-tab" data-bs-toggle="tab" href="#list-view" role="tab" aria-selected="true">
+                                            <i class="fa fa-th-list"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="page-count">
+                                <span>Chế độ xem</span>
+                            </li>
+                            <li class="short">
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content text-charcoal pt-8">
+                        <div class="tab-pane fade" id="grid-view" role="tabpanel" aria-labelledby="grid-view-tab">
+                            <div class="product-grid-view row">
+                                @if (Model != null && Model.Count() > 0)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        string url = $"{item.Alias}-{item.ProductId}.html";
+                                        <div class="col-lg-3 col-sm-6">
+                                            <div class="product-item">
+                                                <div class="product-img img-zoom-effect">
+                                                    <a href="@url">
+                                                        <img class="img-full" src="~/images/products/@item.Thumb" width="270" height="300" alt="@item.Title">
+                                                    </a>
+                                                    <div class="product-add-action">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="@url">
+                                                                    <i class="pe-7s-cart"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content">
+                                                    <a class="product-name" href="single-product.html">@item.ProductName</a>
+                                                    <div class="price-box pb-1">
+                                                        <span class="new-price">@item.Price.Value.ToString("#,##0") VNĐ</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="tab-pane fade show active" id="list-view" role="tabpanel" aria-labelledby="list-view-tab">
+                            <div class="product-list-view row">
+                                @if (Model != null && Model.Count() > 0)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        string url = $"{item.Alias}-{item.ProductId}.html";
+                                        <div class="col-12 pt-6">
+                                            <div class="product-item">
+                                                <div class="product-img img-zoom-effect">
+                                                    <a href="@url">
+                                                        <img class="img-full" src="~/images/products/@item.Thumb" alt="@item.Title" width="270" height="300">
+                                                    </a>
+                                                    <div class="product-add-action">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="@url">
+                                                                    <i class="pe-7s-cart"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content align-self-center">
+                                                    <a class="product-name pb-2" href="single-product.html">@item.ProductName</a>
+                                                    <div class="price-box pb-1">
+                                                        <span class="new-price">@item.Price.Value.ToString("#,##0") VNĐ</span>
+                                                    </div>
+
+                                                    <p class="short-desc mb-0">@item.Description</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pagination-area pt-10">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                @if (CurrentPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="/product.html?page=@(CurrentPage-1)" aria-label="Previous">
+                                            <span class="fa fa-chevron-left"></span>
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="/product.html" aria-label="Previous">
+                                            <span class="fa fa-chevron-left"></span>
+                                        </a>
+                                    </li>
+                                }
+                                <li class="page-item active"><a class="page-link" href="/product.html?page=@CurrentPage">@CurrentPage</a></li>
+                                <li class="page-item"><a class="page-link" href="/product.html?page=@PageNext"">@PageNext</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="/product.html?page=@PageNext" aria-label="Next">
+                                        <span class="fa fa-chevron-right"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Main Content Area End Here -->

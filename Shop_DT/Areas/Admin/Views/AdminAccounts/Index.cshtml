@@ -1,0 +1,144 @@
+﻿@model IEnumerable<Shop_DT.Models.Account>
+
+@{
+    ViewData["Title"] = "Quản lí tài khoản";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <span class="breadcrumb-item active">Danh sách tài khoản</span>
+        </nav>
+    </div>
+</div>
+<div class="row m-b-30">
+    <div class="col-lg-8">
+        <div class="d-md-flex">
+            <div class="m-b-10 m-r-15">
+                <select class="custom-select" style="min-width: 180px;" id="txtRole" name="txtRole" asp-items="ViewBag.QuyenTruyCap">
+                    <option value="0" disabled selected>Chọn chức vụ</option>
+                </select>
+            </div>
+            <div class="m-b-10 m-r-15">
+                <select class="custom-select" style="min-width: 180px;" id="StatusID" name="StatusID" asp-items="ViewBag.TrangThai">
+                    <option value="0" disabled selected>Chọn trạng thái</option>
+                </select>
+            </div>
+            <div class="m-b-10">
+                <input id="keyword" type="text" name="keyword" class="form-control" placeholder="Tìm kiếm tài khoản" />
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 text-right">
+        <a class="btn btn-primary" asp-area="Admin" asp-controller="AdminAccounts" asp-action="Create">
+            <i class="anticon anticon-plus-circle m-r-5"></i>
+            <span>Thêm mới</span>
+        </a>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Họ và tên</th>
+                <th scope="col">Email - SĐT</th>
+                <th scope="col">Chức vụ</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody id="records_table">
+            @if (Model != null && Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.AccountId</th>
+                        <td>@item.FullName</td>
+                        <td>
+                            <p>@item.Email</p>
+                            <p>@item.Phone</p>
+                        </td>
+                        <td>@item.Role.Description</td>
+                        <td>
+                            @if (item.Active)
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="badge badge-success badge-dot m-r-10"></div>
+                                    <div>Hoạt động</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="badge badge-danger badge-dot m-r-10"></div>
+                                    <div>Đã bị khóa</div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            <a class="btn btn-primary m-2" asp-area="Admin" asp-controller="AdminAccounts" asp-action="Details" asp-route-id="@item.AccountId">Xem</a>
+                            <a class="btn btn-secondary m-2" asp-area="Admin" asp-controller="AdminAccounts" asp-action="Edit" asp-route-id="@item.AccountId">Sửa</a>
+                            <a class="btn btn-danger m-2" asp-area="Admin" asp-controller="AdminAccounts" asp-action="Delete" asp-route-id="@item.AccountId">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+<script>
+    $(document).ready(function(){
+        jQuery("#txtRole").change(function(){
+            var roleID = jQuery(this).children(":selected").attr("value");
+            roleID = parseFloat(roleID);
+            
+            $('#txtRole option')
+            .removeAttr('selected');
+            $("#txtRole > [value=" +roleID+"]").attr("selected", "true");
+            $.ajax({
+                url: '/Admin/AdminAccounts/Fillter',
+                datatype: "json",
+                type: "GET",
+                data:{
+                    RoleID : roleID
+                },
+                async: true,
+                success: function(results){
+                    if(results.status == "success")
+                    {
+                        window.location.href = results.redirecUrl;
+                    }
+                },
+                error: function(xhr){
+                    alert('error');
+                }
+            });
+        });
+
+        $("#keyword").keyup(function(){
+            var strkeyword = $('#keyword').val();
+            $.ajax({
+                url: '../Admin/Search/FindAccount/',
+                datatype: "json",
+                type: "POST",
+                data: { keyword : strkeyword},
+                async: true,
+                success: function(results){
+                    $("#records_table").html("");
+                    $("#records_table").html(results);
+                },
+                error: function(xhr){
+                    alert('error');
+                }
+            });
+        });
+    });
+
+</script>
+}

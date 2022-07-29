@@ -1,0 +1,40 @@
+﻿@model Shop_DT.Models.Payment
+
+@{
+    ViewData["Title"] = "Chỉnh sửa phương thức thanh toán";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminPayments" asp-action="Index">Danh sách phương thức thanh toán</a>
+            <span class="breadcrumb-item active">Chỉnh sửa phương thức thanh toán</span>
+        </nav>
+    </div>
+</div>
+<form asp-action="Edit" method="post" asp-route-id="@Model.PaymentId">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="PaymentId" />
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">Tên phương thức:</label>
+            <input type="text" asp-for="PaymentName" class="form-control" id="inputEmail4">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputPassword4">Mô tả:</label>
+            <input type="text" asp-for="PaymentDes" class="form-control" id="inputPassword4">
+        </div>
+        <div class="form-group">
+            <label class="font-weight-semibold" for="productStatus">Trạng thái</label>
+            <br />
+            <label class="form-check-label" style="margin-left:20px">
+                <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+            </label>
+        </div>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Lưu thay đổi">
+</form>
+
+

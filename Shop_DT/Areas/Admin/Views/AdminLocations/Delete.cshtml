@@ -1,0 +1,43 @@
+﻿@model Shop_DT.Models.Location
+
+@{
+    ViewData["Title"] = "Xóa tỉnh thành";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminLocations" asp-action="Index">Danh sách tỉnh thành</a>
+            <span class="breadcrumb-item active">Xóa tỉnh thành</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Xóa tỉnh thành</h4>
+        <div class="table-responsive">
+            <table class="product-info-table m-t-20">
+                <tbody>
+                    <tr>
+                        <td>ID:</td>
+                        <td>@Model.LocationId</td>
+                    </tr>
+                    <tr>
+                        <td>Tên tỉnh thành:</td>
+                        <td>@Model.Name</td>
+                    </tr>
+                    <tr>
+                        <td>Xác nhận xóa:</td>
+                        <td>
+                            <form asp-action="Delete" asp-route-id="@Model.LocationId">
+                                <input type="hidden" asp-for="LocationId" />
+                                <input type="submit" value="Xóa" class="btn btn-danger" />
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

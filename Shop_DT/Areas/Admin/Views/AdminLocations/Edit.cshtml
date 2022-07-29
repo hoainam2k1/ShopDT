@@ -1,0 +1,28 @@
+﻿@model Shop_DT.Models.Location
+
+@{
+    ViewData["Title"] = "Chỉnh sửa tỉnh thành";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminLocations" asp-action="Index">Danh sách tỉnh thành</a>
+            <span class="breadcrumb-item active">Chỉnh sửa tỉnh thành</span>
+        </nav>
+    </div>
+</div>
+<form asp-action="Edit" method="post" asp-route-id="@Model.LocationId">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="LocationId" />
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">Tên quyền truy cập</label>
+            <input type="text" asp-for="Name" class="form-control" id="inputEmail4">
+        </div>
+        
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Lưu thay đổi">
+</form>
