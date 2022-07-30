@@ -149,8 +149,14 @@
                                             <textarea id="connent" placeholder="Nội dung bình luận" class="textarea-field" data-id="@Model.ProductId"></textarea>
                                         </div>
                                         <div class="button-wrap mt-8">
-                                            <a type="button" class="btn btn-custom-size lg-size btn-secondary btn-primary-hover btn-lg rounded-0 binhluan">Bình luận</a>
-
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                <a type="button" class="btn btn-custom-size lg-size btn-secondary btn-primary-hover btn-lg rounded-0 binhluan">Bình luận</a>
+                                            }
+                                            else
+                                            {
+                                                <a type="button" href="/dang-nhap.html" class="btn btn-custom-size lg-size btn-secondary btn-primary-hover btn-lg rounded-0">Bình luận</a>
+                                            }
                                         </div>
                                     </form>
                                 </div>
@@ -234,8 +240,9 @@
                         success: function(response){
                         if(response.result == 'Redirect')
                         {
-                            alert("Thêm thành công!");
+                            
                             window.location = response.url;
+                            
                         }
                         else
                         {
@@ -266,8 +273,6 @@
                         success: function(result){
                             if(result.success)
                             {
-
-
                                 location.reload();
                             }
                         },

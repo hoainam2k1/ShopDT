@@ -7,6 +7,7 @@ using Shop_DT.Extension;
 using Shop_DT.Helpper;
 using Shop_DT.HomeView;
 using Shop_DT.Models;
+using Shop_DT.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,12 @@ namespace Shop_DT.Controllers
     {
         private readonly db_Shop_DTContext _context;
         public INotyfService _notyfService { get; }
-        public CheckoutController(db_Shop_DTContext context, INotyfService notifyService)
+        public SendMailService _sendMailService { get; }
+        public CheckoutController(db_Shop_DTContext context, INotyfService notifyService,SendMailService sendMailService)
         {
             _context = context;
             _notyfService = notifyService;
+            _sendMailService = sendMailService;
         }
         public List<CartItem> GioHang
         {
@@ -65,8 +68,11 @@ namespace Shop_DT.Controllers
             var cart = HttpContext.Session.Get<List<CartItem>>("GioHang");
             var taikhoanID = HttpContext.Session.GetString("CustomerId");
             MuaHangVM model = new MuaHangVM();
+
             if (taikhoanID != null)
             {
+                var mailcontent = new MailContent();
+                
                 var khachhang = _context.Customers.AsNoTracking().SingleOrDefault(x => x.CustomerId == Convert.ToInt32(taikhoanID));
                 model.CustomerId = khachhang.CustomerId;
                 model.FullName = khachhang.FullName;
@@ -79,11 +85,9 @@ namespace Shop_DT.Controllers
 
                 _context.Update(khachhang);
                 _context.SaveChanges();
-
-            }
-            try
-            {
-                if (ModelState.IsValid)
+                mailcontent.To = khachhang.Email;
+                mailcontent.Subject = "Chi tiết đơn hàng";
+                try
                 {
                     Order donhang = new Order();
                     donhang.CustomerId = model.CustomerId;
@@ -94,31 +98,38 @@ namespace Shop_DT.Controllers
                     donhang.TotalMoney = Convert.ToInt32(cart.Sum(x => x.TotalMoney));
                     _context.Add(donhang);
                     _context.SaveChanges();
-
+                    mailcontent.Body = "Đơn hàng của bạn đã được đặt thành công! \nTổng đơn hàng: " + donhang.TotalMoney.Value.ToString("#,##0 VNĐ") + " bao gồm:\n";
 
                     foreach (var item in cart)
                     {
+
                         OrderDetail orderDetail = new OrderDetail();
                         orderDetail.OrderId = donhang.OrderId;
                         orderDetail.ProductId = item.product.ProductId;
                         orderDetail.Quantity = item.amount;
                         orderDetail.Total = donhang.TotalMoney;
+                        int sum = Convert.ToInt32(item.amount) * Convert.ToInt32(item.product.Price);
+                        mailcontent.Body += "\n Sản phẩm: " + item.product.ProductName + " số lượng: " + item.amount + " Thành tiền: " + sum.ToString("#,##0 VNĐ");
                         _context.Add(orderDetail);
                         _context.SaveChanges();
                     }
 
+
+                    var send = _sendMailService.SendMail(mailcontent);
                     HttpContext.Session.Remove("GioHang");
                     _notyfService.Success("Đơn hàng đặt thành công");
                     return RedirectToAction("Success", "Checkout");
+
+
                 }
-              
+                catch (Exception ex)
+                {
+                    ViewData["lsTinhThanh"] = new SelectList(_context.Locations, "LocationID", "Name");
+                    ViewBag.GioHang = cart;
+                    return View(model);
+                }
             }
-            catch (Exception ex)
-            {
-                ViewData["lsTinhThanh"] = new SelectList(_context.Locations, "LocationID", "Name");
-                ViewBag.GioHang = cart;
-                return View(model);
-            }
+
             ViewBag.GioHang = cart;
             return View(model);
         }
