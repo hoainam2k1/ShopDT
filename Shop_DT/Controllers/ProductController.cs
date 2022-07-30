@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Shop_DT.Controllers
 {
     public class ProductController : Controller
@@ -30,6 +30,7 @@ namespace Shop_DT.Controllers
                     .OrderByDescending(x => x.CreateDate);
                 PagedList<Product> models = new PagedList<Product>(lsProduct, pageNumber, pageSize);
                 ViewBag.CurrentPage = pageNumber;
+                ViewData["DanhMuc"] = new SelectList(_context.Categories, "Alias", "CatName");
                 return View(models);
             }
             catch
@@ -38,7 +39,27 @@ namespace Shop_DT.Controllers
             }
 
         }
-        [Route("/{Adias}", Name = "ListProduct")]
+        
+        [Route("/product.html/{keyword}", Name = "SearchProduct")]
+        public IActionResult Search(string keyword)
+        {
+            try
+            {
+                var lsProduct = _context.Products
+                    .AsNoTracking()
+                    .Where(x=>x.ProductName.Contains(keyword))
+                    .OrderByDescending(x => x.CreateDate);
+                
+                ViewData["DanhMuc"] = new SelectList(_context.Categories, "Alias", "CatName");
+                return View(lsProduct);
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+        }
+        [Route("/filter/{Adias}", Name = "ListProduct")]
         public IActionResult list(string adias, int page = 1)
         {
             try
@@ -52,6 +73,7 @@ namespace Shop_DT.Controllers
                 PagedList<Product> models = new PagedList<Product>(lsproduct, page, pageSize);
                 ViewBag.CurrentPage = page;
                 ViewBag.CurrentCat = danhmuc;
+                ViewData["DanhMuc"] = new SelectList(_context.Categories, "Alias", "CatName");
                 return View(models);
             }
             catch
@@ -86,7 +108,7 @@ namespace Shop_DT.Controllers
                     .ToList();
                 ViewBag.SanPham = lsProduct;
                 ViewBag.Comment = lsComment;
-                
+                ViewData["DanhMuc"] = new SelectList(_context.Categories, "Alias", "CatName");
                 return View(product);
             }
             catch

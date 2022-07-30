@@ -44,22 +44,25 @@ namespace Shop_DT.Controllers
             }
             model.Products = lsProductView;
             ViewBag.AllProducts = lsProducts;
-            ViewData["DanhMuc"] = new SelectList(_context.Categories, "CatId", "CatName");
+            ViewData["DanhMuc"] = new SelectList(_context.Categories, "Alias", "CatName");
             return View(model);
         }
         [Route("contact.html", Name = "Contact")]
         public IActionResult Contact()
         {
+            ViewData["DanhMuc"] = new SelectList(_context.Categories, "Alias", "CatName");
             return View();
         }
         [Route("about.html", Name = "About")]
         public IActionResult About()
         {
+            ViewData["DanhMuc"] = new SelectList(_context.Categories, "Alias", "CatName");
             return View();
         }
         [Route("privacy.html", Name = "Shopping")]
         public IActionResult Privacy()
         {
+            ViewData["DanhMuc"] = new SelectList(_context.Categories, "Alias", "CatName");
             return View();
         }
 
