@@ -98,7 +98,7 @@ namespace Shop_DT.Controllers
                     donhang.TotalMoney = Convert.ToInt32(cart.Sum(x => x.TotalMoney));
                     _context.Add(donhang);
                     _context.SaveChanges();
-                    mailcontent.Body = "Đơn hàng của bạn đã được đặt thành công! \nTổng đơn hàng: " + donhang.TotalMoney.Value.ToString("#,##0 VNĐ") + " bao gồm:\n";
+                    mailcontent.Body = "Đơn hàng của bạn đã được đặt thành công!<br />Tổng đơn hàng: " + donhang.TotalMoney.Value.ToString("#,##0 VNĐ") + " bao gồm:";
 
                     foreach (var item in cart)
                     {
@@ -109,7 +109,7 @@ namespace Shop_DT.Controllers
                         orderDetail.Quantity = item.amount;
                         orderDetail.Total = donhang.TotalMoney;
                         int sum = Convert.ToInt32(item.amount) * Convert.ToInt32(item.product.Price);
-                        mailcontent.Body += "\n Sản phẩm: " + item.product.ProductName + " số lượng: " + item.amount + " Thành tiền: " + sum.ToString("#,##0 VNĐ");
+                        mailcontent.Body += "<br />Sản phẩm: " + item.product.ProductName + " số lượng: " + item.amount + " Thành tiền: " + sum.ToString("#,##0 VNĐ");
                         _context.Add(orderDetail);
                         _context.SaveChanges();
                     }
