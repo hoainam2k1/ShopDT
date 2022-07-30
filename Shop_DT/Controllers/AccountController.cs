@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Shop_DT.Extension;
 using Shop_DT.Helpper;
@@ -78,6 +79,7 @@ namespace Shop_DT.Controllers
                         .Where(x => x.CustomerId == khachhang.CustomerId)
                         .OrderByDescending(x => x.OrderDate).ToList();
                     ViewBag.DonHang = lsDonHang;
+                    ViewData["DanhMuc"] = new SelectList(_context.Categories, "Alias", "CatName");
                     return View(khachhang);
                 }
             }
@@ -88,6 +90,7 @@ namespace Shop_DT.Controllers
         [Route("dang-ky.html", Name = "Dangky")]
         public IActionResult DangKyTaiKhoan()
         {
+            ViewData["DanhMuc"] = new SelectList(_context.Categories, "Alias", "CatName");
             return View();
         }
         [HttpPost]
@@ -117,6 +120,11 @@ namespace Shop_DT.Controllers
                     };
                     try
                     {
+                        var account = _context.Customers.AsNoTracking().FirstOrDefault(x => x.Email == taikhoan.Email);
+                        if(account == null)
+                        {
+
+                           
                         _context.Add(khachhang);
                         await _context.SaveChangesAsync();
                         var mailcontent = new MailContent();
@@ -128,8 +136,12 @@ namespace Shop_DT.Controllers
 
                         HttpContext.Session.SetString("CustomerId", khachhang.CustomerId.ToString());
                         return RedirectToAction("ConfirmEmail", "Account");
-
-                        
+                        }
+                        else
+                        {
+                            _notyfService.Error("Email đã tồn tại");
+                            return RedirectToAction("DangKyTaiKhoan", "Account");
+                        }    
 
                     }
                     catch
