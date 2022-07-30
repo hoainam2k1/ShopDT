@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Shop_DT.Models;
+using Shop_DT.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,9 @@ namespace Shop_DT
                 });
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddNotyf(config => { config.DurationInSeconds = 3; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
+            var mailsettings = Configuration.GetSection("MailSettings");
+            services.Configure<MailSettings>(mailsettings);
+            services.AddTransient<SendMailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

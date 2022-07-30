@@ -8,6 +8,7 @@ using Shop_DT.Extension;
 using Shop_DT.Helpper;
 using Shop_DT.HomeView;
 using Shop_DT.Models;
+using Shop_DT.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,10 +23,12 @@ namespace Shop_DT.Controllers
     {
         private readonly db_Shop_DTContext _context;
         public INotyfService _notyfService { get; }
-        public AccountController(db_Shop_DTContext context, INotyfService notifyService)
+        public SendMailService _sendMailService { get; }
+        public AccountController(db_Shop_DTContext context, INotyfService notifyService, SendMailService sendMailService)
         {
             _context = context;
             _notyfService = notifyService;
+            _sendMailService = sendMailService;
         }
         [HttpGet]
         [AllowAnonymous]
@@ -97,34 +100,37 @@ namespace Shop_DT.Controllers
                 if (ModelState.IsValid)
                 {
                     string RandomKey = Utilities.GetRandomKey();
+
+
                     Customer khachhang = new Customer
                     {
                         FullName = taikhoan.FullName,
                         Phone = taikhoan.Phone.Trim().ToLower(),
                         Email = taikhoan.Email.Trim().ToLower(),
                         Password = (taikhoan.Password + RandomKey.Trim()).ToMD5(),
-                        Active = true,
+                        Active = false,
                         Salt = RandomKey.Trim(),
-                        LastLogin = DateTime.Now,
+                        //LastLogin = DateTime.Now,
                         CreateDate = DateTime.Now
-                        
+
+
                     };
                     try
                     {
                         _context.Add(khachhang);
                         await _context.SaveChangesAsync();
+                        var mailcontent = new MailContent();
+
+                        mailcontent.To = khachhang.Email;
+                        mailcontent.Subject = "Confirm Email";
+                        mailcontent.Body = "Mã xác thực của bạn là:  " + khachhang.Salt;
+                        var send = await _sendMailService.SendMail(mailcontent);
+
                         HttpContext.Session.SetString("CustomerId", khachhang.CustomerId.ToString());
-                        var claims = new List<Claim>
-                        {
-                            new Claim(ClaimTypes.Name, khachhang.FullName),
-                            new Claim("CustomerId", khachhang.CustomerId.ToString())
-                        };
-                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
-                        ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                        await HttpContext.SignInAsync(claimsPrincipal);
-                        //var shoppingCart = Giohang;
-                        //if (shoppingCart.Count > 0) return RedirectToAction("shipping", "checkout");
-                        return RedirectToAction("DashBoard", "Account");
+                        return RedirectToAction("ConfirmEmail", "Account");
+
+                        
+
                     }
                     catch
                     {
@@ -137,6 +143,55 @@ namespace Shop_DT.Controllers
                 }
             }
             catch
+            {
+                return View(taikhoan);
+            }
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("xac-nhan.html", Name = "ConfirmEmail")]
+        public IActionResult ConfirmEmail()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("xac-nhan.html", Name = "ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail(RegisterVM taikhoan)
+        {
+            try
+            {
+                var taikhoanID = HttpContext.Session.GetString("CustomerId");
+                if (string.IsNullOrEmpty(taikhoanID)) return RedirectToAction("Login", "Account");
+
+
+                var khachhang = _context.Customers.AsNoTracking().SingleOrDefault(x => x.CustomerId == Convert.ToInt32(taikhoanID));
+                if (khachhang == null) return NotFound();
+                if (taikhoan.Salt == khachhang.Salt)
+                {
+                    khachhang.Active = true;
+                    khachhang.LastLogin = DateTime.Now;
+                    _context.Update(khachhang);
+                    await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("CustomerId", khachhang.CustomerId.ToString());
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, khachhang.FullName),
+                        new Claim("CustomerId", khachhang.CustomerId.ToString())
+                    };
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
+                    ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                    await HttpContext.SignInAsync(claimsPrincipal);
+
+                    return RedirectToAction("DashBoard", "Account");
+                }
+                else
+                {
+                    return View(taikhoan);
+                }
+            }
+            catch (Exception ex)
             {
                 return View(taikhoan);
             }

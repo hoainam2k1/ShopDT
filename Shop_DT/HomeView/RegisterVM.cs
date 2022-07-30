@@ -34,5 +34,6 @@ namespace Shop_DT.HomeView
         [Display(Name = "Nhập lại mật khẩu")]
         [Compare("Password", ErrorMessage = "Vui lòng nhập mật khẩu giống nhau")]
         public string ConfirmPassword { get; set; }
+        public string Salt { get; set; }
     }
 }

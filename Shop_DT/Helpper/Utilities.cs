@@ -92,7 +92,7 @@ namespace Shop_DT.Helpper
             return false;
 
         }
-        public static string GetRandomKey(int length = 5)
+        public static string GetRandomKey(int length = 8)
         {
             //chuỗi mẫu (pattern)
             string pattern = @"0123456789zxcvbnmasdfghjklqwertyuiop[]{}:~!@#$%^&*()+";

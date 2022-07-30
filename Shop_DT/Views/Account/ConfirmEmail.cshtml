@@ -1,0 +1,36 @@
+﻿@model Shop_DT.HomeView.RegisterVM
+@{
+    ViewData["Title"] = "Xác nhận email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<main class="main-content">
+    <div class="login-register-area section-space-y-axis-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6 pt-10 pt-lg-0">
+                    <form asp-action="ConfirmEmail">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="login-form">
+                            <center>
+                                <h4 class="login-title">Xác thực tài khoản</h4>
+                            </center>
+                            <div class="row">
+                                <div class="col-12">
+                                    <label>Mã xác thực</label>
+                                    <input asp-for="Salt" required>
+                                </div>
+                                <div class="col-12">
+                                    <center>
+                                        <input type="submit" class="btn text-secondary lg-size btn-primary btn-primary-hover rounded-0" value="Xác nhận" />
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+        </div>
+    </div>
+</main>
