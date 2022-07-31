@@ -40,7 +40,7 @@ namespace Shop_DT.Controllers
 
         }
         
-        [Route("/product.html/{keyword}", Name = "SearchProduct")]
+        [Route("product.html/{keyword}", Name = "SearchProduct")]
         public IActionResult Search(string keyword)
         {
             try

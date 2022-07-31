@@ -68,7 +68,7 @@ namespace ShopDT.Controllers
 
                 _notyfService.Success("Thêm thành công");
                 HttpContext.Session.Set<List<CartItem>>("GioHang", gioHang);
-                return Json(new { success = true, redirect = "./product.html" });
+                return Json(new { success = true });
             }
             catch
             {

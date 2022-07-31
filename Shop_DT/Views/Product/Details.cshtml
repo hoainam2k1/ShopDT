@@ -242,13 +242,13 @@
                         if(response.result == 'Redirect')
                         {
                             
-                            window.location = response.url;
+                            window.location.href = '/product.html';
                             
                         }
                         else
                         {
                             loadHeaderCart();
-                            location.reload();
+                            window.location.href = '/product.html';
                         }
                         },
                         error: function(error)
