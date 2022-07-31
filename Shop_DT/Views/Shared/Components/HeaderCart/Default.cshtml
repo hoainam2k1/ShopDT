@@ -32,7 +32,15 @@
         </div>
         <div class="group-btn_wrap d-grid gap-2">
             <a href="cart.html" class="btn btn-secondary btn-primary-hover">Xem giỏ hàng</a>
-            <a href="checkout.html" class="btn btn-secondary btn-primary-hover">Thanh toán</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="checkout.html" class="btn btn-secondary btn-primary-hover">Thanh toán</a>
+            }
+            else
+            {
+                <a href="dang-nhap.html" class="btn btn-secondary btn-primary-hover">Thanh toán</a>
+            }
+
         </div>
     </div>
 }
