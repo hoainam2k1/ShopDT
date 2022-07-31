@@ -74,6 +74,22 @@
     <script src="~/assets/js/main.js"></script>
     @await Component.InvokeAsync("Notyf");
     @await RenderSectionAsync("Scripts", required: false);
+    <script>
+
+           $(document).ready(function(){
+               jQuery("#txtCat").change(function(){
+               var cateID = $("#txtCat").val();
+               window.location.href = '/filter/' + cateID;
+                });
+           });
+                            
+           function Search()
+           {
+              var strkeyword = $('#keyword').val();
+              console.log(strkeyword);
+              window.location.href = "/product.html/"  + strkeyword;
+           }                 
+    </script>
 </body>
 
 </html>

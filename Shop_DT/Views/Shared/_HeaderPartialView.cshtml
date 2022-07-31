@@ -11,7 +11,7 @@
                         </a>
                         <div class="header-search-area d-none d-lg-block">
                             <div class="header-searchbox">
-                                <select class="nice-select select-search-category wide" id="txtCat" name="txtCat" asp-items="ViewBag.DanhMuc" onchange="Filter()">
+                                <select class="nice-select select-search-category wide" id="txtCat" name="txtCat" asp-items="ViewBag.DanhMuc">
                                     <option value="0" disabled selected>Chọn danh mục</option>
                                 </select>
                                 <input id="keyword" type="text" name="keyword" class="input-field" placeholder="Tìm kiếm sản phẩm" />
@@ -19,26 +19,7 @@
                                 <button class="btn btn-outline-whisper btn-primary-hover search" type="submit" onclick="Search()"><i class="pe-7s-search"></i></button>
                             </div>
                         </div>
-                        <script>
-                            function Filter()
-                            {
-                                jQuery("#txtCat").change(function(){
-                                var cat = jQuery(this).children(":selected").attr("value");
-                                
-                                    console.log(cat);
-                                    
-                                    window.location.href = '/filter/' + cat;
-                                });
-                                          
-                            }
-                            function Search()
-                            {
-                                var strkeyword = $('#keyword').val();
-                                console.log(strkeyword);
-                                window.location = "https://localhost:44348/product.html/"  + strkeyword;
-                            }
-                            
-                        </script>
+                        
                         <div class="header-right">
                             <ul>
                                 <li class="dropdown d-none d-md-block">
